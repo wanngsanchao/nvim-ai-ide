@@ -7,7 +7,7 @@
 #########################################################################
 # entrypoint.sh
 
-# 启动 SSHD 前台模式
+# 启动 SSHD 的前台模式
 echo "Starting SSH daemon..."
 exec /usr/sbin/sshd -D -e
 
