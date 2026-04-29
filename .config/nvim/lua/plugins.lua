@@ -164,6 +164,11 @@ return require("lazy").setup({
             width = 30,
             side = "left",
           },
+          -- ✅ 新增：启动时自动打开目录
+          view = {
+            width = 30,
+            side = "left",
+          },
           renderer = {
             icons = {
               show = {
@@ -179,6 +184,9 @@ return require("lazy").setup({
             },
           },
         })
+        -- 2. ✅ 简单粗暴的自动打开命令
+        -- 只要 nvim-tree 加载，就强制执行打开命令
+        vim.cmd("NvimTreeOpen")
       end,
     },
 
@@ -268,7 +276,7 @@ return require("lazy").setup({
           providers = {
             openai = {
               __inherited_from = "openai",
-              endpoint = "http://10.102.244.40:8000/v1",
+              endpoint = "http://s-20260427120216-k5vmr-decode.ailab-zskj.svc:8000/v1",
               api_key = "sk-mpp-admin-a54294fdf58981bd9fd1f6e225f28e198eb9711965601f30aa2f73f94e209ec3",
               model = "glm-5.1-fp8", -- 对应你提供的模型 ID
               -- ✅ 关键：DashScope 需要指定模型
@@ -280,13 +288,30 @@ return require("lazy").setup({
             },
           },
           float = true,
+          -- 🎨 在这里添加窗口大小和位置的配置
+          windows = {
+            position = "right",   -- 侧边栏位置：可选 "right", "left", "top", "bottom"
+            width = 50,           -- 垂直布局时的宽度（屏幕宽度的50%）
+            height = 30,          -- 水平布局时的高度（屏幕高度的 30%）
+            sidebar_header = {
+              enabled = true,     -- 启用顶部标题栏
+              align = "center",   -- 标题居中
+              rounded = true,     -- 圆角边框
+            },
+            input = {
+              height = 10,        -- 底部输入框的高度
+            },
+          },
           mappings = {
             submit = {
               normal = "<leader>s",
-              insert = "<CR>", -- ✅ 改为 <CR> 避免 E382
+              insert = "<S-CR>", -- ✅ 改为 <CR> 避免 E382
             },
           },
         })
+        -- ✅ 新增：绑定快捷键 ai 来打开 Avante
+        -- 注意：这需要在 setup 之后或者外部定义
+        vim.keymap.set("n", "aa", "<cmd>AvanteChat<cr>", { desc = "Open Avante Chat" })
       end,
     },
   },
